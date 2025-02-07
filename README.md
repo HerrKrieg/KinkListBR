@@ -1,2 +1,2 @@
 # KinkList
-Easily create [kink list](https://goctionni.github.io/KinkList/v1.0.2.html)
+Crie e divulgue seus fetiches [clicando aqui](https://herrkrieg.github.io/KinkListBR)
