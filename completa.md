@@ -2,10 +2,10 @@
 (Geral)
 * Sessões Avulsas
 * Monogamia
+* Não-monogamia
 * Cuckolding
 * Múltiplos parceiros
 * Swing (troca de casais)
-* Não monogamia
 * Troca de poder (TPE - Total Power Exchange)
 
 # Locais
@@ -15,10 +15,10 @@
 * Clubes/Meetings
 
 # Atos sexuais
-(Dar,Receber)
+(Dar, Receber)
 * Sexo Vaginal
 * Sexo Anal
-* Sexo oral
+* Sexo Oral
 * Sexo nos seios
 * Masturbação sem penetração dos dedos
 * Masturbação com penetração dos dedos
@@ -78,7 +78,7 @@
 * Dispositivos de castidade
 
 # Sadismo e Masoquismo
-(Dar,Receber)
+(Dar, Receber)
 * Palmada
 * Tapa na cara
 * Morder
@@ -124,7 +124,7 @@
 * Engasgos Durante Oral
 
 # Dominação e submissão
-(Dar,Receber)
+(Mandar, Obedecer)
 * Implorar
 * Tarefas domésticas
 * Ser mandado
@@ -164,7 +164,7 @@
 * Motorista
 
 # Role Play
-(Dar,Receber)
+(Observar/Autor, Vestir/Vítima)
 * Chefe/Secretária - (Funcionário)
 * Professor/Estudante
 * Donzela em perigo
@@ -192,7 +192,7 @@
 * Reprodução / Impregnação
 
 # Fetiches
-(Eu vestir,Parceiro(a) vestir)
+(Vestir, Assistir)
 * Corpo magro
 * Corpo gordo
 * Seios pequenos
@@ -248,7 +248,7 @@
 * Scat (Fezes)
 
 # Equipamentos - Restritivos
-(Eu usar,Parceiro(a) usar)
+(Aplicar, Receber)
 * Cintos/tiras de couro
 * Corda de cânhamo
 * Corda de nylon
@@ -296,7 +296,7 @@
 * Ganchos de nariz
 
 # Equipamentos - Impacto e Sensorial
-(Eu usar,Parceiro(a) usar)
+(Aplicar, Receber)
 * Prendedores de roupa
 * Bengalas
 * Remos
