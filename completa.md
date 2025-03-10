@@ -6,7 +6,10 @@
 * Cuckolding
 * Múltiplos parceiros
 * Swing (troca de casais)
-* Troca de poder (TPE - Total Power Exchange)
+* Troca de poder Total (TPE - Total Power Exchange)
+* Troca de poder Erótica (EPE - Erotic Power Exchange)
+* Troca de poder Parcial (PPE - Total Power Exchange)
+* Disponibilidade 24/7
 
 # Locais
 (Geral)
@@ -64,17 +67,22 @@
 * Restrição de movimentos 3-12 horas
 * Equipamentos restritivos de couro
 * Equipamentos restritivos Metálicos
-* Amarrações
-* Amarrações complexas / Shibari
-* Suspensão - Vertical
-* Suspensão - Horizontal
-* Suspensão - Invertida
+* Amarrações Simples
+* Amarrações Complexas / Shibari
+* Amarrações Solo
+* Amarrações com Suspensão Parcial 
+* Amarrações com Suspensão - Vertical
+* Amarrações com Suspensão - Horizontal
+* Amarrações com Suspensão - Invertida
 * Restrição Genital
 * Mumificação
 * Contenção (Celas / Gaiolas/ Jaulas)
 * Posições desconfortáveis
 * Gags
-* Privação sensorial
+* Privação de Visão
+* Privação de Audição
+* Privação de Fala
+* Privação de Olfato
 * Dispositivos de castidade
 
 # Sadismo e Masoquismo
