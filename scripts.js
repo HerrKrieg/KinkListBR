@@ -146,9 +146,9 @@ $(function(){
             inputKinks.placeCategories($categories);
             
             // Make things update hash
-            $('#InputList').find('button.choice').on('click', function(){
-                location.hash = inputKinks.updateHash();
-            });
+            //$('#InputList').find('button.choice').on('click', function(){
+            //    location.hash = inputKinks.updateHash();
+            //});
         },
         init: function(){
             // Set up DOM
@@ -643,7 +643,6 @@ $(function(){
         e.stopPropagation();
     });
 
-    var stylesheet = document.styleSheets[0];
     $('.legend .choice').each(function(){
         var $choice = $(this);
         var $parent = $choice.parent();

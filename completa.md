@@ -6,9 +6,9 @@
 * Cuckolding
 * Múltiplos parceiros
 * Swing (troca de casais)
-* Troca de poder Total (TPE - Total Power Exchange)
-* Troca de poder Erótica (EPE - Erotic Power Exchange)
-* Troca de poder Parcial (PPE - Total Power Exchange)
+* Troca Total de Poder (TPE)
+* Troca Erótica de Poder (EPE)
+* Troca Parcial de Poder (PPE)
 * Disponibilidade 24/7
 
 # Locais
