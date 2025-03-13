@@ -422,6 +422,7 @@ $(function(){
                     $('#Loading').hide();
                     var url = 'https://i.imgur.com/' + result.data.id + '.png';
                     $('#URL').val(url).fadeIn();
+                    window.open(url, '_blank').focus();
                 },
                 fail: function(){
                     $('#Loading').hide();
