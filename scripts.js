@@ -1,6 +1,7 @@
 var log = function(val, base) {
     return Math.log(val) / Math.log(base);
 };
+
 var strToClass = function(str){
     var className = "";
     str = str.toLowerCase();
@@ -19,6 +20,7 @@ var strToClass = function(str){
     }
     return className;
 };
+
 var addCssRule = function(selector, rules){
     var sheet = document.styleSheets[0];
     if("insertRule" in sheet) {
@@ -145,52 +147,15 @@ $(function(){
             }
             inputKinks.placeCategories($categories);
             
-            // Make things update hash
-            //$('#InputList').find('button.choice').on('click', function(){
-            //    location.hash = inputKinks.updateHash();
-            //});
         },
         init: function(){
             // Set up DOM
             inputKinks.fillInputList();
-            
-            // Read hash
-            inputKinks.parseHash();
-            
+                        
             // Make export button work
             $('#Export').on('click', inputKinks.export);
             $('#URL').on('click', function(){ this.select(); });
-            
-            // On resize, redo columns
-            (function(){
-                
-                var lastResize = 0;
-                $(window).on('resize', function(){
-                    var curTime = (new Date()).getTime();
-                    lastResize = curTime;
-                    setTimeout(function(){
-                        if(lastResize === curTime) {
-                            inputKinks.fillInputList();
-                            inputKinks.parseHash();
-                        }
-                    }, 500);
-                });
-                
-            })();
-        },
-        hashChars: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.=+*^!@",
-        maxPow: function(base, maxVal) {
-            var maxPow = 1;
-            for(var pow = 1; Math.pow(base, pow) <= maxVal; pow++){
-                maxPow = pow;
-            }
-            return maxPow;
-        },
-        prefix: function(input, len, char){
-            while(input.length < len) {
-                input = char + input;
-            }
-            return input;
+
         },
         drawLegend: function(context){
             context.font = "bold 13px Arial";
@@ -222,16 +187,18 @@ $(function(){
                 width: width,
                 height: height
             });
-            // $canvas.insertBefore($('#InputList'));
             
+            //Fundo
             var context = canvas.getContext('2d');
             context.fillStyle = '#FFFFFF';
             context.fillRect(0, 0, canvas.width, canvas.height);
             
+            //Titulo
             context.font = "bold 24px Arial";
             context.fillStyle = '#000000';
-            context.fillText('Kinklist ' + username, 5, 25);
+            context.fillText('KinklistBR ' + username, 5, 25);
             
+            //Titulos
             inputKinks.drawLegend(context);
             return { context: context, canvas: canvas };
         },
@@ -246,6 +213,7 @@ $(function(){
                 context.font = "bold 18px Arial";
                 context.fillText(drawCall.data.category, drawCall.x, drawCall.y + 5);
                 
+                //Categorias (Dar,Receber)
                 var fieldsStr = drawCall.data.fields.join(', ');
                 context.font = "italic 12px Arial";
                 context.fillText(fieldsStr, drawCall.x, drawCall.y + 20);
@@ -402,8 +370,6 @@ $(function(){
                 }
             }
             
-            //return $(canvas).insertBefore($('#InputList'));
-            
             // Send canvas to imgur
             $.ajax({
                 url: 'https://api.imgur.com/3/image',
@@ -428,101 +394,6 @@ $(function(){
                     $('#Loading').hide();
                     alert('Failed to upload to imgur, could not connect');
                 }
-            });
-        },
-        encode: function(base, input){
-            var hashBase = inputKinks.hashChars.length;
-            var outputPow = inputKinks.maxPow(hashBase, Number.MAX_SAFE_INTEGER);
-            var inputPow = inputKinks.maxPow(base, Math.pow(hashBase, outputPow));
-            
-            var output = "";
-            var numChunks = Math.ceil(input.length / inputPow);
-            var inputIndex = 0;
-            for(var chunkId = 0; chunkId < numChunks; chunkId++) {
-                var inputIntValue = 0;
-                for(var pow = 0; pow < inputPow; pow++) {
-                    var inputVal = input[inputIndex++];
-                    if(typeof inputVal === "undefined") break;
-                    var val = inputVal * Math.pow(base, pow);
-                    inputIntValue += val;
-                }
-                
-                var outputCharValue = "";
-                while(inputIntValue > 0) {
-                    var maxPow = Math.floor(log(inputIntValue, hashBase));
-                    var powVal = Math.pow(hashBase, maxPow);
-                    var charInt = Math.floor(inputIntValue / powVal);
-                    var subtract = charInt * powVal;
-                    var char = inputKinks.hashChars[charInt];
-                    outputCharValue += char;
-                    inputIntValue -= subtract;
-                }
-                var chunk = inputKinks.prefix(outputCharValue, outputPow, inputKinks.hashChars[0]);
-                output += chunk;
-            }
-            return output;
-        },
-        decode: function(base, output){
-            var hashBase = inputKinks.hashChars.length;
-            var outputPow = inputKinks.maxPow(hashBase, Number.MAX_SAFE_INTEGER);
-            
-            var values = [];
-            var numChunks = Math.max(output.length / outputPow)
-            for(var i = 0; i < numChunks; i++){
-                var chunk = output.substring(i * outputPow, (i + 1) * outputPow);
-                var chunkValues = inputKinks.decodeChunk(base, chunk);
-                for(var j = 0; j < chunkValues.length; j++) {
-                    values.push(chunkValues[j]);
-                }
-            }
-            return values;
-        },
-        decodeChunk: function(base, chunk){
-            var hashBase = inputKinks.hashChars.length;
-            var outputPow = inputKinks.maxPow(hashBase, Number.MAX_SAFE_INTEGER);
-            var inputPow = inputKinks.maxPow(base, Math.pow(hashBase, outputPow));
-            
-            var chunkInt = 0;
-            for(var i = 0; i < chunk.length; i++) {
-                var char = chunk[i];
-                var charInt = inputKinks.hashChars.indexOf(char);
-                var pow = chunk.length - 1 - i;
-                var intVal = Math.pow(hashBase, pow) * charInt;
-                chunkInt += intVal;
-            }
-            var chunkIntCopy = chunkInt;
-            
-            var output = [];
-            for(var pow = inputPow - 1; pow >= 0; pow--) {
-                var posBase = Math.floor(Math.pow(base, pow));
-                var posVal = Math.floor(chunkInt / posBase);
-                var subtract = posBase * posVal;
-                output.push(posVal);
-                chunkInt -= subtract;
-            }
-            output.reverse();
-            return output;
-        },
-        updateHash: function(){
-            var hashValues = [];
-            $('#InputList .choices').each(function(){
-                var $this = $(this);
-                var lvlInt = $this.find('.selected').data('levelInt');
-                if(!lvlInt) lvlInt = 0;
-                hashValues.push(lvlInt);
-            });
-            return inputKinks.encode(Object.keys(colors).length, hashValues);
-        },
-        parseHash: function(){
-            var hash = location.hash.substring(1);
-            if(hash.length < 10) return;
-            
-            var values = inputKinks.decode(Object.keys(colors).length, hash);
-            var valueIndex = 0;
-            $('#InputList .choices').each(function(){
-                var $this = $(this);
-                var value = values[valueIndex++];
-                $this.children().eq(value).addClass('selected');
             });
         },
         saveSelection: function(){
@@ -557,15 +428,8 @@ $(function(){
             }
             return KinksText;
         },
-        restoreSavedSelection: function(selection){
-            setTimeout(function(){
-                for(var i = 0; i < selection.length; i++){
-                    var selector = selection[i];
-                    $(selector).addClass('selected');
-                }
-                location.hash = inputKinks.updateHash();
-            }, 300);
-        },
+
+        //Lê o completa.md e converte para as listas
         parseKinksText: function(kinksText){
             var newKinks = {};
             var lines = kinksText.replace(/\r/g, '').split("\n");
@@ -627,17 +491,15 @@ $(function(){
         $(this).fadeOut();
     });
     $('#KinksOK').on('click', function(){
-        var selection = inputKinks.saveSelection();
         try {
             var kinksText = $('#Kinks').val();
             kinks = inputKinks.parseKinksText(kinksText);
             inputKinks.fillInputList();
         }
         catch(e){
-            alert('An error occured trying to parse the text entered, please correct it and try again');
+            alert('O texto não foi compreendido, por favor, reescreva seguindo o exemplo original em Markdown');
             return;
         }
-        inputKinks.restoreSavedSelection(selection);
         $('#EditOverlay').fadeOut();
     });
     $('.overlay > *').on('click', function(e){
@@ -664,194 +526,4 @@ $(function(){
     })
     .catch((e) => console.error(e));
 
-    (function(){
-        var $popup = $('#InputOverlay');
-        var $previous = $('#InputPrevious');
-        var $next = $('#InputNext');
-
-        // current
-        var $category = $('#InputCategory');
-        var $field = $('#InputField');
-        var $options = $('#InputValues');
-
-        function getChoiceValue($choices){
-            var $selected = $choices.find('.choice.selected');
-            return $selected.data('level');
-        }
-
-        function getChoicesElement(category, kink, field){
-            var selector = '.cat-' + strToClass(category);
-            selector += ' .kink-' + strToClass(kink);
-            selector += ' .choice-' + strToClass(field);
-
-            var $choices = $(selector);
-            return $choices;
-        }
-
-        inputKinks.getAllKinks = function(){
-            var list = [];
-
-            var categories = Object.keys(kinks);
-            for(var i = 0; i < categories.length; i++){
-                var category = categories[i];
-                var fields = kinks[category].fields;
-                var kinkArr = kinks[category].kinks;
-
-                for(var j = 0; j < fields.length; j++) {
-                    var field = fields[j];
-                    for(var k = 0; k < kinkArr.length; k++){
-                        var kink = kinkArr[k];
-                        var $choices = getChoicesElement(category, kink, field);
-                        var value = getChoiceValue($choices);
-                        var obj = { category: category, kink: kink, field: field, value: value, $choices: $choices, showField: (fields.length >= 2)};
-                        list.push(obj);
-                    }
-                }
-
-            }
-            return list;
-        };
-
-        inputKinks.inputPopup = {
-            numPrev: 3,
-            numNext: 3,
-            allKinks: [],
-            kinkByIndex: function(i){
-                var numKinks = inputKinks.inputPopup.allKinks.length;
-                i = (numKinks + i) % numKinks;
-                return inputKinks.inputPopup.allKinks[i];
-            },
-            generatePrimary: function(kink){
-                var $container = $('<div>');
-                var btnIndex = 0;
-                $('.legend > div').each(function(){
-                    var $btn = $(this).clone();
-                    $btn.addClass('big-choice');
-                    $btn.appendTo($container);
-
-                    $('<span>')
-                            .addClass('btn-num-text')
-                            .text(btnIndex++)
-                            .appendTo($btn)
-
-                    var text = $btn.text().trim().replace(/[0-9]/g, '');
-                    if(kink.value === text) {
-                        $btn.addClass('selected');
-                    }
-
-                    $btn.on('click', function(){
-                        $container.find('.big-choice').removeClass('selected');
-                        $btn.addClass('selected');
-                        kink.value = text;
-                        $options.fadeOut(200, function(){
-                            $options.show();
-                            inputKinks.inputPopup.showNext();
-                        });
-                        var choiceClass = strToClass(text);
-                        kink.$choices.find('.' + choiceClass).click();
-                    });
-                });
-                return $container;
-            },
-            generateSecondary: function(kink){
-                var $container = $('<div class="kink-simple">');
-                $('<span class="choice">').addClass(level[kink.value]).appendTo($container);
-                $('<span class="txt-category">').text(kink.category).appendTo($container);
-                if(kink.showField){
-                    $('<span class="txt-field">').text(kink.field).appendTo($container);
-                }
-                $('<span class="txt-kink">').text(kink.kink).appendTo($container);
-                return $container;
-            },
-            showIndex: function(index){
-                $previous.html('');
-                $next.html('');
-                $options.html('');
-                $popup.data('index', index);
-
-                // Current
-                var currentKink = inputKinks.inputPopup.kinkByIndex(index);
-                var $currentKink = inputKinks.inputPopup.generatePrimary(currentKink);
-                $options.append($currentKink);
-                $category.text(currentKink.category);
-                $field.text((currentKink.showField ? '(' + currentKink.field + ') ' : '') + currentKink.kink);
-                $options.append($currentKink);
-
-                // Prev
-                for(var i = inputKinks.inputPopup.numPrev; i > 0; i--){
-                    var prevKink = inputKinks.inputPopup.kinkByIndex(index - i);
-                    var $prevKink = inputKinks.inputPopup.generateSecondary(prevKink);
-                    $previous.append($prevKink);
-                    (function(skip){
-                        $prevKink.on('click', function(){
-                            inputKinks.inputPopup.showPrev(skip);
-                        });
-                    })(i);
-                }
-                // Next
-                for(var i = 1; i <= inputKinks.inputPopup.numNext; i++){
-                    var nextKink = inputKinks.inputPopup.kinkByIndex(index + i);
-                    var $nextKink = inputKinks.inputPopup.generateSecondary(nextKink);
-                    $next.append($nextKink);
-                    (function(skip){
-                        $nextKink.on('click', function(){
-                            inputKinks.inputPopup.showNext(skip);
-                        });
-                    })(i);
-                }
-            },
-            showPrev: function(skip){
-                if(typeof skip !== "number") skip = 1;
-                var index = $popup.data('index') - skip;
-                var numKinks = inputKinks.inputPopup.allKinks.length;
-                index = (numKinks + index) % numKinks;
-                inputKinks.inputPopup.showIndex(index);
-            },
-            showNext: function(skip){
-                if(typeof skip !== "number") skip = 1;
-                var index = $popup.data('index') + skip;
-                var numKinks = inputKinks.inputPopup.allKinks.length;
-                index = (numKinks + index) % numKinks;
-                inputKinks.inputPopup.showIndex(index);
-            },
-            show: function(){
-                inputKinks.inputPopup.allKinks = inputKinks.getAllKinks();
-                inputKinks.inputPopup.showIndex(0);
-                $popup.fadeIn();
-            }
-        };
-
-        $(window).on('keydown', function(e){
-            if(e.altKey || e.shiftKey || e.ctrlKey) return;
-            if(!$popup.is(':visible')) return;
-
-            if(e.keyCode === 38) {
-                inputKinks.inputPopup.showPrev();
-                e.preventDefault();
-                e.stopPropagation();
-            }
-            if(e.keyCode === 40) {
-                inputKinks.inputPopup.showNext();
-                e.preventDefault();
-                e.stopPropagation();
-            }
-
-            var btn = -1;
-            if(e.keyCode >= 96 && e.keyCode <= 101) {
-                btn = e.keyCode - 96;
-            }
-            else if(e.keyCode >= 48 && e.keyCode <= 53) {
-                btn = e.keyCode - 48;
-            }
-            else {
-                return;
-            }
-
-            var $btn = $options.find('.big-choice').eq(btn);
-            $btn.click();
-        });
-        $('#InputCurrent .closePopup, #InputOverlay').on('click', function(){
-            $popup.fadeOut();
-        });                    
-    })();
 });
