@@ -37,7 +37,6 @@ var colors = {}
 var level = {};
 
 $(function(){
-    
     var imgurClientId = '9db53e5936cd02f';
     
     inputKinks = {
@@ -78,16 +77,17 @@ $(function(){
             }
             return $container;
         },
-        createKink: function(fields, name){
-            var $row = $('<tr>').data('kink', name).addClass('kinkRow');
+        createKink: function(fields, kink){
+            var $row = $('<tr>').data('kink', kink.kinkName).addClass('kinkRow');
             for(var i = 0; i < fields.length; i++) {
                 var $choices = inputKinks.createChoice();
                 $choices.data('field', fields[i]);
                 $choices.addClass('choice-' + strToClass(fields[i]));
                 $('<td>').append($choices).appendTo($row);
             }
-            $('<td>').text(name).appendTo($row);
-            $row.addClass('kink-' + strToClass(name));
+            var kinkLabel = $('<td>').text(kink.kinkName).appendTo($row);
+            if(kink.kinkDesc) {showDescriptionButton(kink.kinkDesc, kinkLabel);}
+            $row.addClass('kink-' + strToClass(kink.kinkName));
             return $row;
         },
         createColumns: function(){
@@ -139,6 +139,7 @@ $(function(){
                 
                 var $category = inputKinks.createCategory(catName, fields);
                 var $tbody = $category.find('tbody');
+
                 for(var k = 0; k < kinkArr.length; k++) {
                     $tbody.append(inputKinks.createKink(fields, kinkArr[k]));
                 }
@@ -148,18 +149,26 @@ $(function(){
             inputKinks.placeCategories($categories);
             
         },
+        
         init: function(){
             // Set up DOM
             inputKinks.fillInputList();
-                        
+
             // Make export button work
-            $('#Export').on('click', inputKinks.export);
+            $('#ExportButtonOKClaro').on('click', function() {
+                inputKinks.export(true);
+            });
+
+            $('#ExportButtonOKEscuro').on('click', function() {
+                inputKinks.export(false);
+            });
             $('#URL').on('click', function(){ this.select(); });
 
         },
-        drawLegend: function(context){
+        
+        //Desenha a legenda
+        drawLegend: function(context, temaClaro){
             context.font = "bold 13px Arial";
-            context.fillStyle = '#000000';
             
             var levels = Object.keys(colors);
             var x = context.canvas.width - 15 - (120 * levels.length);
@@ -171,12 +180,14 @@ $(function(){
                 context.strokeStyle = 'rgba(0, 0, 0, 0.5)'
                 context.lineWidth = 1;
                 context.stroke();
-                
-                context.fillStyle = '#000000';
+
+                context.fillStyle = temaClaro ? '#000000ff' : '#FFFFFFff' //Cor do título das legendas do topo
                 context.fillText(levels[i], x + 15 + (i * 120), 22);
             }
         },
-        setupCanvas: function(width, height, username){
+
+        //Prepara a imagem
+        setupCanvas: function(width, height, username,temaClaro){
             $('canvas').remove();
             var canvas = document.createElement('canvas');
             canvas.width = width;
@@ -190,36 +201,38 @@ $(function(){
             
             //Fundo
             var context = canvas.getContext('2d');
-            context.fillStyle = '#FFFFFF';
+            context.fillStyle = temaClaro ? '#FFFFFFff' : '#000000ff'; //Cor do fundo
             context.fillRect(0, 0, canvas.width, canvas.height);
             
-            //Titulo
+            //Titulo Principal (KinkListBR)
             context.font = "bold 24px Arial";
-            context.fillStyle = '#000000';
-            context.fillText('KinklistBR ' + username, 5, 25);
+            context.fillStyle = temaClaro ? '#000000ff' : '#FFFFFFff'; //Cor do título principal a esquerda acima
+            context.fillText('KinkListBR ' + username, 5, 25);
             
-            //Titulos
-            inputKinks.drawLegend(context);
+            //Desenha a legenda do topo
+            inputKinks.drawLegend(context, temaClaro);
             return { context: context, canvas: canvas };
         },
         drawCallHandlers: {
-            simpleTitle: function(context, drawCall){
-                context.fillStyle = '#000000';
+            //Titulo simples
+            simpleTitle: function(context, drawCall, temaClaro){
+                context.fillStyle = temaClaro ? '#000000ff' : '#FFFFFFff'; //Cor do título se ele não tiver subtitulo
                 context.font = "bold 18px Arial";
                 context.fillText(drawCall.data, drawCall.x, drawCall.y + 5);
             },
-            titleSubtitle: function(context, drawCall){
-                context.fillStyle = '#000000';
+            //Titulo com subtitulo
+            titleSubtitle: function(context, drawCall, temaClaro){
+                context.fillStyle = temaClaro ? '#000000ff' : '#FFFFFFff'; //Cor do titulo caso tenha subtitulo (Dar,Receber)
                 context.font = "bold 18px Arial";
                 context.fillText(drawCall.data.category, drawCall.x, drawCall.y + 5);
                 
-                //Categorias (Dar,Receber)
                 var fieldsStr = drawCall.data.fields.join(', ');
                 context.font = "italic 12px Arial";
                 context.fillText(fieldsStr, drawCall.x, drawCall.y + 20);
             },
-            kinkRow: function(context, drawCall){
-                context.fillStyle = '#000000';
+            //Titulo do fetiche
+            kinkRow: function(context, drawCall, temaClaro){
+                context.fillStyle = temaClaro ? '#000000ff' : '#FFFFFFff'; //Cor do nome do fetiche
                 context.font = "12px Arial";
                 
                 var x = drawCall.x + 5 + (drawCall.data.choices.length * 20);
@@ -245,7 +258,7 @@ $(function(){
                 
             }
         },
-        export: function(){
+        export: function(temaClaro){
             var username = prompt("Digite o seu apelido:");
             if(typeof username !== 'string') return;
             else if (username.length ) username = '(' + username + ')';
@@ -353,7 +366,7 @@ $(function(){
             
             var canvasWidth = offsets.left + offsets.right + (columnWidth * numCols);
             var canvasHeight = offsets.top + offsets.bottom + tallestColumnHeight;
-            var setup = inputKinks.setupCanvas(canvasWidth, canvasHeight, username);
+            var setup = inputKinks.setupCanvas(canvasWidth, canvasHeight, username, temaClaro);
             var context = setup.context;
             var canvas = setup.canvas;
             
@@ -366,7 +379,7 @@ $(function(){
                     var drawCall = drawStack[j];
                     drawCall.x = drawX;
                     drawCall.y += offsets.top;
-                    inputKinks.drawCallHandlers[drawCall.type](context, drawCall);
+                    inputKinks.drawCallHandlers[drawCall.type](context, drawCall, temaClaro);
                 }
             }
             
@@ -422,7 +435,9 @@ $(function(){
                 KinksText += '#' + catName + "\r\n";
                 KinksText += '(' + catFields.join(', ') + ")\r\n";
                 for(var j = 0; j < catKinks.length; j++){
-                    KinksText += '* ' + catKinks[j] + "\r\n";
+                    KinksText += '* ' + catKinks[j].kinkName + "\r\n";
+                    if(catKinks[j].kinkDesc) 
+                        { KinksText += '? ' + catKinks[j].kinkDesc + "\r\n"; }
                 }
                 KinksText += "\r\n";
             }
@@ -455,16 +470,24 @@ $(function(){
                     catName = line.substring(1).trim();
                     cat = { kinks: [] };
                 }
+
                 if(!catName) continue;
+
                 if(line[0] === '(') {
                     cat.fields = line.substring(1, line.length - 1).trim().split(',');
                     for(var j = 0; j < cat.fields.length; j++){
                         cat.fields[j] = cat.fields[j].trim();
                     }
                 }
+
                 if(line[0] === '*'){
-                    var kink = line.substring(1).trim();
+                    var kink = {};
+                    kink.kinkName = line.substring(1).trim();
                     cat.kinks.push(kink);
+                }
+
+                if(line[0] === '?'){
+                    kink.kinkDesc = line.substring(1).trim();
                 }
             }
             if(catName && !newKinks[catName]){
@@ -482,6 +505,7 @@ $(function(){
         }
     };
 
+    //Modal Edit
     $('#Edit').on('click', function(){
         var KinksText = inputKinks.inputListToText();
         $('#Kinks').val(KinksText.trim());
@@ -490,6 +514,7 @@ $(function(){
     $('#EditOverlay').on('click', function(){
         $(this).fadeOut();
     });
+
     $('#KinksOK').on('click', function(){
         try {
             var kinksText = $('#Kinks').val();
@@ -505,6 +530,45 @@ $(function(){
     $('.overlay > *').on('click', function(e){
         e.stopPropagation();
     });
+
+    //Modal Welcome
+    $(window).on('load', function() {
+        $('#WelcomeModal').fadeIn();
+    });
+    
+    $('#WelcomeModal').on('click', function(){
+        $(this).fadeOut();
+    });
+
+    $('.welcomeOverlay > *').on('click', function(e){
+        e.stopPropagation();
+    });
+
+    //Modal Export
+    $('#Export').on('click', function(){
+        $('#ExportOverlay').fadeIn();
+    });
+    $('#EditOverlay').on('click', function(){
+        $(this).fadeOut();
+    });
+
+    //Description
+    $('#DescriptionOverlay').on('click', function(){
+        $(this).fadeOut();
+    });
+
+    $('#Description').on('click', function(){
+        $('#DescriptionOverlay').fadeOut();
+    });
+
+    function showDescriptionButton(description, attachElement) {
+        $('<Button />', { "class": 'KinkDesc',  click: function() {
+                                                    $('#Description').text(description);
+                                                    $('#DescriptionOverlay').fadeIn();} 
+        }).appendTo(attachElement);
+    }
+
+    
 
     $('.legend .choice').each(function(){
         var $choice = $(this);

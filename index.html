@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Kinklist</title>
+        <title>KinkListBR</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="completa.md"></script>
@@ -13,7 +13,7 @@
     <body>
         <div id="TitleHeader">
             <button id="Edit"></button>
-            <h1>Kink list</h1>
+            <h1>KinkList</h1>
             <div class="legend">
                 <div><span data-color="#FFFFFF" class="choice notEntered"></span> <span class="legend-text">Vazio</span></div>
                 <div><span data-color="#6DB5FE" class="choice favorite"></span> <span class="legend-text">Adoro</span></div>
@@ -35,15 +35,30 @@
         </div>
         <!--Modals-->
         <div id="EditOverlay" class="overlay">
-            <textarea id="Kinks">
-
-            </textarea>
+            <textarea id="Kinks"></textarea>
             <button id="KinksOK">Salvar</button>
         </div>
-    </body>
 
-    <footer>
-        <p>Feito por Herr Krieg</p>
-        <p>Baseado no <a href="https://github.com/Goctionni/KinkList">KinkList by Goctionni</a></p>
-    </footer>
+    
+        <div id="ExportOverlay">
+            <button id="ExportButtonOKClaro">Exportar com fundo Claro</button>
+            <button id="ExportButtonOKEscuro">Exportar com fundo Escuro</button>
+        </div>
+
+        <div id="WelcomeModal" class="welcomeOverlay">
+            <p>Feito por Herr Krieg baseado no <a href="https://github.com/Goctionni/KinkList" target="_blank">KinkList by Goctionni</a> e com melhorias de <a href="https://github.com/adhesivecheese/kinklist" target="_blank">Adhesivecheese</a></p>
+            <p>Qualquer sugestão de melhoria é bem-vinda. Se essa lista te ajudou de alguma forma, me mande uma mensagem pra me motivar a continuar melhorando.</p>
+            <p><a href="mailto:the.herr.krieg@gmail.com">Enviar Email</a></p>
+            <p><a href="https://fetlife.com/users/7265647" target="_blank">Fetlife</a></p>
+            <p><a href="https://www.instagram.com/theherrkrieg/" target="_blank">Instagram</a></p>
+
+        </div>
+        <div id="DescriptionOverlay" class="overlay">
+			<div id="Description"></div>
+		</div>
+
+
+
+
+    </body>
 </html>
