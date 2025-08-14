@@ -19,7 +19,7 @@
 * Troca Parcial de Poder (PPE)
 ? Dinâmica consensual onde uma pessoa entrega o controle parcial de suas decisões e ações a outra, dentro de limites previamente estabelecidos.
 * Disponibilidade 24/7
-? Dinâmica consensual onde a pessoa bottom fica disponível 24 horas por dia, 7 dias por semana para a pesosa Top, dentro de limites previamente estabelecidos.
+? Dinâmica consensual onde a pessoa bottom fica disponível 24 horas por dia, 7 dias por semana para a pessoa Top, dentro de limites previamente estabelecidos.
 
 # Locais
 (Geral)
@@ -411,10 +411,10 @@
 ? Atração por ver, ter contato com a pessoa com barba curta (comprimento do pelo de menos de 1cm)
 *Barba comprida
 ? Atração por ver, ter contato com a pessoa com barba comprida (comprimento do pelo de menos de 1cm)
-*Pêlos corporais
-? Atração por ver, ter contato com a pessoa com pêlos corporais não raspados
-*Pêlos pubianos
-? Atração por ver, ter contato com a pessoa com pêlos publianos não raspados
+*Pelos corporais
+? Atração por ver, ter contato com a pessoa com pelos corporais não raspados
+*Pelos pubianos
+? Atração por ver, ter contato com a pessoa com pelos publianos não raspados
 * Couro
 ? Atração por ver, ter contato e/ou uso de peças de couro. 
 * Látex

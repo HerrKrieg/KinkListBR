@@ -511,8 +511,8 @@ $(function(){
         $('#Kinks').val(KinksText.trim());
         $('#EditOverlay').fadeIn();
     });
-    $('#EditOverlay').on('click', function(){
-        $(this).fadeOut();
+    $('#FecharEditOverlay').on('click', function(){
+        $('#EditOverlay').fadeOut();
     });
 
     $('#KinksOK').on('click', function(){
@@ -533,11 +533,11 @@ $(function(){
 
     //Modal Welcome
     $(window).on('load', function() {
-        $('#WelcomeModal').fadeIn();
+        $('#WelcomeOverlay').fadeIn();
     });
-    
-    $('#WelcomeModal').on('click', function(){
-        $(this).fadeOut();
+
+    $('#FecharWelcomeOverlay').on('click', function(){
+        $('#WelcomeOverlay').fadeOut();
     });
 
     $('.welcomeOverlay > *').on('click', function(e){
@@ -548,8 +548,9 @@ $(function(){
     $('#Export').on('click', function(){
         $('#ExportOverlay').fadeIn();
     });
-    $('#EditOverlay').on('click', function(){
-        $(this).fadeOut();
+
+    $('#FecharExportOverlay').on('click', function(){
+        $('#ExportOverlay').fadeOut();
     });
 
     //Description
@@ -567,8 +568,6 @@ $(function(){
                                                     $('#DescriptionOverlay').fadeIn();} 
         }).appendTo(attachElement);
     }
-
-    
 
     $('.legend .choice').each(function(){
         var $choice = $(this);

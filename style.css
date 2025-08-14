@@ -398,17 +398,35 @@ td + td {
 	font-size:14px
 }
 
+#FecharWelcomeOverlay {
+    text-align: right;
+    cursor:pointer;
+}
+
+#FecharExportOverlay {
+    text-align: right;
+    cursor:pointer;
+}
+
+#FecharEditOverlay {
+    position: absolute;
+    text-align: right;
+    cursor: pointer;
+    left: 50%;
+    margin-left: 302px;
+}
+
 #EditOverlay #Kinks {
     box-sizing: border-box;
     position: absolute;
-    top: 10px;
+    top: 30px;
     bottom: 50px;
-    width: 330px;
+    width: 600px;
     left: 50%;
-    margin-left: -165px;
+    margin-left: -285px;
     resize: none;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 10px;
     font-family: monospace, 'Courier new', Courier;
 }
 #EditOverlay #KinksOK {
