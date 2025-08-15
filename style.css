@@ -4,6 +4,10 @@ body {
     color: white;
     background-color: #000;
 }
+#TituloTexto, h1{
+    display: inline;
+}
+
 h2 {
     padding: 0;
     margin: 0;
@@ -151,7 +155,7 @@ td + td {
     box-sizing: border-box;
     color: #FFF;
     text-transform: uppercase;
-    background-color: #4980ae;
+    background-color: #af1b1b;
     font-size: 18px;
     width: 150px;
     height: 36px;
@@ -179,6 +183,7 @@ td + td {
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     font-family: 'Verdana', 'Arial';
+    margin-bottom: 10px;
 }
 
 #ExportButtonOKEscuro {
@@ -203,8 +208,8 @@ td + td {
 #ExportOverlay {
     box-sizing:border-box;
 	position:absolute;
-	width:250px;
-    height:140px;
+	width:255px;
+    height:167px;
 	margin: auto;
 	bottom:50%;
 	resize:none;
@@ -364,7 +369,7 @@ td + td {
     float: left;
     border-style: none;
     outline-style: none!important;
-    margin-top: 6px;
+    margin-top: 4px;
     margin-right: 4px;
     opacity: 0.5;
     cursor: pointer;
@@ -398,14 +403,22 @@ td + td {
 	font-size:14px
 }
 
+#WelcomeIcons{
+    display: flex;
+    justify-content:center;
+}
+
+
 #FecharWelcomeOverlay {
     text-align: right;
     cursor:pointer;
+    margin:0px;
 }
 
 #FecharExportOverlay {
     text-align: right;
     cursor:pointer;
+    margin:0px;
 }
 
 #FecharEditOverlay {
@@ -414,6 +427,7 @@ td + td {
     cursor: pointer;
     left: 50%;
     margin-left: 202px;
+    margin:0px;
 }
 
 #EditOverlay #Kinks {
