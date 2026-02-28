@@ -37,7 +37,7 @@ var colors = {}
 var level = {};
 
 $(function(){
-    var imgurClientId = '9db53e5936cd02f';
+    var imgbbClientId = 'acabd735998bd2e500b0f72bb4907d58';
     
     inputKinks = {
         $columns: [],
@@ -258,7 +258,7 @@ $(function(){
                 
             }
         },
-        export: function(temaClaro){
+        export: async function(temaClaro){
             var username = prompt("Digite o seu apelido:");
             if(typeof username !== 'string') return;
             else if (username.length ) username = '(' + username + ')';
@@ -382,32 +382,33 @@ $(function(){
                     inputKinks.drawCallHandlers[drawCall.type](context, drawCall, temaClaro);
                 }
             }
-            
-            // Send canvas to imgur
-            $.ajax({
-                url: 'https://api.imgur.com/3/image',
-                type: 'POST',
-                headers: {
-                    // Your application gets an imgurClientId from Imgur
-                    Authorization: 'Client-ID ' + imgurClientId,
-                    Accept: 'application/json'
-                },
-                data: {
-                    // convert the image data to base64
-                    image:  canvas.toDataURL().split(',')[1],
-                    type: 'base64'
-                },
-                success: function(result) {
+
+            const url = `https://api.imgbb.com/1/upload?key=${imgbbClientId}`;
+
+            const formData = new FormData();
+            formData.append('image', canvas.toDataURL().split(',')[1]);
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
                     $('#Loading').hide();
-                    var url = 'https://i.imgur.com/' + result.data.id + '.png';
-                    $('#URL').val(url).fadeIn();
-                    window.open(url, '_blank').focus();
-                },
-                fail: function(){
-                    $('#Loading').hide();
-                    alert('Failed to upload to imgur, could not connect');
+                    $('#URL').val(data.data.url).fadeIn();
+                    window.open(data.data.url, '_blank').focus();    
+                } else {
+                    statusText.innerText = `Error: ${data.error.message}`;
                 }
-            });
+
+            } catch (error) {
+                $('#Loading').hide();
+                alert('Failed to upload to ImgBB, could not connect');
+            }
+
         },
         saveSelection: function(){
             var selection = [];
