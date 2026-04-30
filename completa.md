@@ -7,7 +7,9 @@
 * Não-monogamia
 ? Relacionamentos íntimos e emocionais com mais de uma pessoa, com conhecimento e consentimento de todos os envolvidos. 
 * Cuckolding
-? Dinâmica em que um parceiro consente em ver ou saber que o outro tem relações sexuais ou íntimas com terceiros, geralmente envolvendo elementos de submissão e poder. 
+? Dinâmica em que um parceiro consente em ver ou saber que o outro tem relações sexuais ou íntimas com terceiros, geralmente envolvendo elementos de submissão e poder.
+* Stag/Vixen
+? Dinâmica em que um parceiro consente em ver ou saber que o outro tem relações sexuais ou íntimas com terceiros, sem envolver elementos de submissão e poder.
 * Múltiplos parceiros
 ? Relações ou práticas envolvendo mais de um parceiro ao mesmo tempo, consensualmente e dentro de limites acordados. 
 * Swing (troca de casais)
@@ -18,6 +20,8 @@
 ? Dinâmica consensual onde uma pessoa entrega o controle da parte erótica da vida dela, dentro de limites previamente estabelecidos.
 * Troca Parcial de Poder (PPE)
 ? Dinâmica consensual onde uma pessoa entrega o controle parcial de suas decisões e ações a outra, dentro de limites previamente estabelecidos.
+* Relacionamento liderado pela mulher (FLR)
+? Dinâmica consensual onde uma pessoa, normalmente homem, entrega o controle total de suas decisões e ações a outra, normalmente mulher, dentro de limites previamente estabelecidos.
 * Disponibilidade 24/7
 ? Dinâmica consensual onde a pessoa bottom fica disponível 24 horas por dia, 7 dias por semana para a pessoa Top, dentro de limites previamente estabelecidos.
 
@@ -464,7 +468,7 @@
 * Brincadeira de comida
 ? Prática onde é usado comida de alguma forma, seja esfregando no corpo, pisando ou outra ação. 
 * Menstruação
-? Prática de risco que envolve atração por ver, ter contato e/ou consumir urina. 
+? Prática de risco que envolve atração por ver, ter contato e/ou consumir menstruação.
 * Fotos/Videos
 ? Atração por ser fotografado ou filmado. 
 * Exibicionismo Online
