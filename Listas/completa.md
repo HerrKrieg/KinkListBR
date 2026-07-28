@@ -397,23 +397,23 @@
 ? Atração por ver, ter contato com pênis pequenos (abaixo dos 9 cm)
 * Pênis grandes
 ? Atração por ver, ter contato com pênis grandes (acima dos 16 cm)
-*Cabelo longo
+* Cabelo longo
 ? Atração por ver, ter contato com a pessoa com cabelo longo
-*Cabelo curto
+* Cabelo curto
 ? Atração por ver, ter contato com a pessoa com cabelo curto
-*Cabelo raspado
+* Cabelo raspado
 ? Atração por ver, ter contato com a pessoa com cabelo raspado
-*Cabelo colorido
+* Cabelo colorido
 ? Atração por ver, ter contato com a pessoa com cabelo colorido
-*Barba raspada
+* Barba raspada
 ? Atração por ver, ter contato com a pessoa com barba raspada
-*Barba curta
+* Barba curta
 ? Atração por ver, ter contato com a pessoa com barba curta (comprimento do pelo de menos de 1cm)
-*Barba comprida
+* Barba comprida
 ? Atração por ver, ter contato com a pessoa com barba comprida (comprimento do pelo de menos de 1cm)
-*Pelos corporais
+* Pelos corporais
 ? Atração por ver, ter contato com a pessoa com pelos corporais não raspados
-*Pelos pubianos
+* Pelos pubianos
 ? Atração por ver, ter contato com a pessoa com pelos publianos não raspados
 * Couro
 ? Atração por ver, ter contato e/ou uso de peças de couro. 
@@ -501,6 +501,8 @@
 ? Atração por ver, ter contato e/ou uso de roupa Zentai (Roupa de corpo todo). 
 * Fraldas
 ? Atração por ver, ter contato e/ou uso de fraldas. 
+* Chuva Prateada (esperma)
+? Prática de risco que envolve atração por ver, ter contato e/ou consumir esperma. 
 * Chuva Dourada (urina)
 ? Prática de risco que envolve atração por ver, ter contato e/ou consumir urina. 
 * Sangue

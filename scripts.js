@@ -263,7 +263,6 @@ $(function(){
             if(typeof username !== 'string') return;
             else if (username.length ) username = '(' + username + ')';
             
-            $('#Loading').fadeIn();
             $('#URL').fadeOut();
             
             // Constants
@@ -397,7 +396,6 @@ $(function(){
                 const data = await response.json();
 
                 if (data.success) {
-                    $('#Loading').hide();
                     $('#URL').val(data.data.url).fadeIn();
                     window.open(data.data.url, '_blank').focus();    
                 } else {
@@ -405,8 +403,7 @@ $(function(){
                 }
 
             } catch (error) {
-                $('#Loading').hide();
-                alert('Failed to upload to ImgBB, could not connect');
+                alert('Erro ao gerar a imagem, tente novamente.');
             }
 
         },
@@ -534,24 +531,26 @@ $(function(){
 
     //Modal Welcome
     $(window).on('load', function() {
+        $('#WelcomeOverlayBackground').fadeIn();
         $('#WelcomeOverlay').fadeIn();
-    });
-
-    $('#FecharWelcomeOverlay').on('click', function(){
-        $('#WelcomeOverlay').fadeOut();
     });
 
     $('.welcomeOverlay > *').on('click', function(e){
         e.stopPropagation();
     });
 
+    $('#WelcomeOverlayBackground').on('click', function(){
+        $(this).fadeOut();
+    });
+
     //Modal Export
     $('#Export').on('click', function(){
+        $('#ExportOverlayBackground').fadeIn();
         $('#ExportOverlay').fadeIn();
     });
 
-    $('#FecharExportOverlay').on('click', function(){
-        $('#ExportOverlay').fadeOut();
+    $('#ExportOverlayBackground').on('click', function(){
+        $(this).fadeOut();
     });
 
     //Description
@@ -564,9 +563,12 @@ $(function(){
     });
 
     function showDescriptionButton(description, attachElement) {
-        $('<Button />', { "class": 'KinkDesc',  click: function() {
-                                                    $('#Description').text(description);
-                                                    $('#DescriptionOverlay').fadeIn();} 
+        $('<Button />', 
+            { "class": 'KinkDesc',  
+                click: function() {
+                                    $('#Description').text(description);
+                                    $('#DescriptionOverlay').fadeIn();
+                                } 
         }).appendTo(attachElement);
     }
 
@@ -582,7 +584,27 @@ $(function(){
         level[text] = cssClass;
     });
 
-    fetch("completa.md")
+    $('#buttonSimples').on('click', function(){
+        fetch("Listas/simples.md")
+            .then((res) => res.text())
+            .then((text) => {
+                kinks = inputKinks.parseKinksText(text.trim());
+                inputKinks.init();
+            })
+            .catch((e) => console.error(e));
+    });
+
+    $('#buttonCompleta').on('click', function(){
+    fetch("Listas/completa.md")
+        .then((res) => res.text())
+        .then((text) => {
+            kinks = inputKinks.parseKinksText(text.trim());
+            inputKinks.init();
+        })
+        .catch((e) => console.error(e));
+    });
+
+    fetch("Listas/simples.md")
     .then((res) => res.text())
     .then((text) => {
         kinks = inputKinks.parseKinksText(text.trim());
