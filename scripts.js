@@ -530,10 +530,8 @@ $(function(){
     });
 
     //Modal Welcome
-    $(window).on('load', function() {
-        $('#WelcomeOverlayBackground').fadeIn();
-        $('#WelcomeOverlay').fadeIn();
-    });
+    $('#WelcomeOverlayBackground').fadeIn();
+    $('#WelcomeOverlay').fadeIn();
 
     $('.welcomeOverlay > *').on('click', function(e){
         e.stopPropagation();
