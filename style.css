@@ -168,11 +168,29 @@ td + td {
 #Export:hover {
     opacity: 0.85;
 }
+
+#ExportButtonOKLink {
+    display: grid;
+    box-sizing: border-box;
+    color: #FFF;
+    background-color: #af1b1b;
+    border-color:#000;
+    font-size: 18px;
+    width: 235px;
+    height: 60px;
+    border-style: solid;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    font-family: 'Verdana', 'Arial';
+    margin-bottom: 10px;
+    align-items: center; 
+}
+
 #ExportButtonOKClaro {
     display: grid;
     box-sizing: border-box;
     color: #000000;
-    text-transform: uppercase;
     background-color: #ffffff;
     border-color:#000;
     font-size: 18px;
@@ -184,13 +202,13 @@ td + td {
     transition: all 0.3s ease-in-out;
     font-family: 'Verdana', 'Arial';
     margin-bottom: 10px;
+    align-items: center; 
 }
 
 #ExportButtonOKEscuro {
     display: grid;
     box-sizing: border-box;
     color: #ffffff;
-    text-transform: uppercase;
     background-color: #000000;
     border-color:#ffffff;
     font-size: 18px;
@@ -201,6 +219,7 @@ td + td {
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     font-family: 'Verdana', 'Arial';
+    align-items: center; 
 }
 
 
@@ -209,7 +228,8 @@ td + td {
     box-sizing:border-box;
 	position:absolute;
 	left:50%;
-	bottom:50%;
+	top:50%;
+    transform: translate(-50%, -50%);
 	background-color:#000;
 	border-radius:5px;
 	padding:10px;

@@ -74,6 +74,7 @@ $(function(){
                             $container.find('button').removeClass('selected');
                             $(this).addClass('selected');
                             inputKinks.saveState();
+                            inputKinks.updateShareURL();
                         });
             }
             return $container;
@@ -421,7 +422,6 @@ $(function(){
             });
             localStorage.setItem('kinkListState', JSON.stringify(state));
         },
-
         loadState: function(){
             var raw = localStorage.getItem('kinkListState');
             if(!raw) return;
@@ -519,6 +519,39 @@ $(function(){
                 newKinks[catName] = cat;
             }
             return newKinks;
+        },
+        stateToShareString: function(){
+            var chars = [];
+            $('tr.kinkRow').each(function(){
+                $(this).find('.choices').each(function(){
+                    var $selected = $(this).find('.choice.selected');
+                    var levelInt = $selected.length ? $selected.data('levelInt') : -1;
+                    chars.push((levelInt + 1).toString(36)); // '0' = not answered, '1'+ = level
+                });
+            });
+            return chars.join('');
+        },
+        applyShareString: function(str){
+            var i = 0;
+            $('tr.kinkRow').each(function(){
+                $(this).find('.choices').each(function(){
+                    if(i >= str.length) return;
+                    var val = parseInt(str[i], 36);
+                    i++;
+                    if(val > 0){
+                        var levelInt = val - 1;
+                        $(this).find('.choice').removeClass('selected').each(function(){
+                            if($(this).data('levelInt') === levelInt) $(this).addClass('selected');
+                        });
+                    }
+                });
+            });
+        },
+        updateShareURL: function(){
+            var stateStr = inputKinks.stateToShareString();
+            var compressed = LZString.compressToEncodedURIComponent(stateStr);
+            var hash = 'lista=' + (inputKinks.currentListSize || 'simples') + '&kinks=' + compressed;
+            history.replaceState(null, '', '#' + hash);
         }
     };
 
@@ -530,6 +563,11 @@ $(function(){
     });
     $('#FecharEditOverlay').on('click', function(){
         $('#EditOverlay').fadeOut();
+    });
+
+    $('#ExportButtonOKLink').on('click', function(){
+        navigator.clipboard.writeText(location.href)
+        $('#ExportButtonOKLink').text("Copiado")
     });
 
     $('#KinksOK').on('click', function(){
@@ -557,13 +595,15 @@ $(function(){
     });
 
     $('#WelcomeOverlayBackground').on('click', function(){
-        $(this).fadeOut();
+        $('#WelcomeOverlayBackground').fadeOut();
     });
 
     //Modal Export
     $('#Export').on('click', function(){
+        $('#ExportButtonOKLink').text("Copiar Link para exportar");
         $('#ExportOverlayBackground').fadeIn();
         $('#ExportOverlay').fadeIn();
+
     });
 
     $('#ExportOverlayBackground').on('click', function(){
@@ -601,32 +641,38 @@ $(function(){
         level[text] = cssClass;
     });
 
-    $('#buttonSimples').on('click', function(){
-        fetch("Listas/simples.md")
-            .then((res) => res.text())
-            .then((text) => {
+    function loadList(size, shareState){
+        var file = size === 'completa' ? 'Listas/completa.md' : 'Listas/simples.md';
+        inputKinks.currentListSize = size;
+        fetch(file)
+            .then(function(res){ return res.text(); })
+            .then(function(text){
                 kinks = inputKinks.parseKinksText(text.trim());
                 inputKinks.init();
+                if(shareState){
+                    inputKinks.applyShareString(shareState);
+                } else {
+                    inputKinks.loadState();
+                }
             })
-            .catch((e) => console.error(e));
-    });
+            .catch(function(e){ console.error(e); });
+    }
 
-    $('#buttonCompleta').on('click', function(){
-    fetch("Listas/completa.md")
-        .then((res) => res.text())
-        .then((text) => {
-            kinks = inputKinks.parseKinksText(text.trim());
-            inputKinks.init();
-        })
-        .catch((e) => console.error(e));
-    });
+    $('#buttonSimples').on('click', function(){ loadList('simples'); });
+    $('#buttonCompleta').on('click', function(){ loadList('completa'); });
 
-    fetch("Listas/simples.md")
-    .then((res) => res.text())
-    .then((text) => {
-        kinks = inputKinks.parseKinksText(text.trim());
-        inputKinks.init();
-    })
-    .catch((e) => console.error(e));
+    // Initial load — check if this is a shared link
+    var hashParams = new URLSearchParams(location.hash.substring(1));
+    var sharedList = hashParams.get('lista');
+    var sharedKinksRaw = hashParams.get('kinks');
+    var sharedKinks = sharedKinksRaw ? LZString.decompressFromEncodedURIComponent(sharedKinksRaw) : null;
+
+    if(sharedList && sharedKinks){
+        loadList(sharedList, sharedKinks);
+        $('#SizeButtonGroup').hide();
+        $('#SizeButtonGroupLabel').hide();
+    } else {
+        loadList('simples');
+    }
 
 });
