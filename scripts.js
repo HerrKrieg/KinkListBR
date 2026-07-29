@@ -73,6 +73,7 @@ $(function(){
                         .on('click', function(){
                             $container.find('button').removeClass('selected');
                             $(this).addClass('selected');
+                            inputKinks.saveState();
                         });
             }
             return $container;
@@ -147,9 +148,8 @@ $(function(){
                 $categories.push($category);
             }
             inputKinks.placeCategories($categories);
-            
+            inputKinks.loadState();
         },
-        
         init: function(){
             // Set up DOM
             inputKinks.fillInputList();
@@ -165,7 +165,6 @@ $(function(){
             $('#URL').on('click', function(){ this.select(); });
 
         },
-        
         //Desenha a legenda
         drawLegend: function(context, temaClaro){
             context.font = "bold 13px Arial";
@@ -185,7 +184,6 @@ $(function(){
                 context.fillText(levels[i], x + 15 + (i * 120), 22);
             }
         },
-
         //Prepara a imagem
         setupCanvas: function(width, height, username,temaClaro){
             $('canvas').remove();
@@ -407,21 +405,43 @@ $(function(){
             }
 
         },
-        saveSelection: function(){
-            var selection = [];
-            $('.choice.selected').each(function(){
-                // .choice selector
-                var selector = '.' + this.className.replace(/ /g, '.');
-                // .choices selector
-                selector = '.' + $(this).closest('.choices')[0].className.replace(/ /g, '.') + ' ' + selector;
-                // .kinkRow selector
-                selector = '.' + $(this).closest('tr.kinkRow')[0].className.replace(/ /g, '.') + ' ' + selector;
-                // .kinkCategory selector
-                selector = '.' + $(this).closest('.kinkCategory')[0].className.replace(/ /g, '.') + ' ' + selector;
-                selector = selector.replace('.selected', '');
-                selection.push(selector);
+        saveState: function(){
+            var state = {};
+            $('tr.kinkRow').each(function(){
+                var kinkName = $(this).data('kink');
+                var catName = $(this).closest('.kinkCategory').data('category');
+                $(this).find('.choices').each(function(){
+                    var field = $(this).data('field');
+                    var $selected = $(this).find('.choice.selected');
+                    if($selected.length){
+                        var key = catName + '|' + kinkName + '|' + field;
+                        state[key] = $selected.data('level');
+                    }
+                });
             });
-            return selection;
+            localStorage.setItem('kinkListState', JSON.stringify(state));
+        },
+
+        loadState: function(){
+            var raw = localStorage.getItem('kinkListState');
+            if(!raw) return;
+            var state;
+            try { state = JSON.parse(raw); }
+            catch(e){ return; }
+
+            $('tr.kinkRow').each(function(){
+                var kinkName = $(this).data('kink');
+                var catName = $(this).closest('.kinkCategory').data('category');
+                $(this).find('.choices').each(function(){
+                    var field = $(this).data('field');
+                    var key = catName + '|' + kinkName + '|' + field;
+                    var level = state[key];
+                    if(level === undefined) return;
+                    $(this).find('.choice').removeClass('selected').each(function(){
+                        if($(this).data('level') === level) $(this).addClass('selected');
+                    });
+                });
+            });
         },
         inputListToText: function(){
             var KinksText = "";
@@ -441,7 +461,6 @@ $(function(){
             }
             return KinksText;
         },
-
         //Lê o completa.md e converte para as listas
         parseKinksText: function(kinksText){
             var newKinks = {};
