@@ -1,11 +1,11 @@
 # Tipo de Relacionamento
 (Geral)
-* Sessões Avulsas
-? Encontros únicos ou pontuais entre parceiros para explorar práticas específicas, sem compromisso contínuo. 
 * Monogamia
-? Relação que existe exclusividade afetiva, romântica e sexual entre duas pessoas. 
+? Relação que existe exclusividade afetiva, romântica e sexual entre duas pessoas.
 * Não-monogamia
 ? Relacionamentos íntimos e emocionais com mais de uma pessoa, com conhecimento e consentimento de todos os envolvidos. 
+* Sessões Avulsas
+? Encontros únicos ou pontuais entre parceiros para explorar práticas específicas, sem compromisso contínuo.
 * Cuckolding
 ? Dinâmica em que um parceiro consente em ver ou saber que o outro tem relações sexuais ou íntimas com terceiros, geralmente envolvendo elementos de submissão e poder.
 * Stag/Vixen

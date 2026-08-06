@@ -561,6 +561,7 @@ $(function(){
         $('#Kinks').val(KinksText.trim());
         $('#EditOverlay').fadeIn();
     });
+
     $('#FecharEditOverlay').on('click', function(){
         $('#EditOverlay').fadeOut();
     });
@@ -582,6 +583,7 @@ $(function(){
         }
         $('#EditOverlay').fadeOut();
     });
+
     $('.overlay > *').on('click', function(e){
         e.stopPropagation();
     });
@@ -619,11 +621,18 @@ $(function(){
         $('#DescriptionOverlay').fadeOut();
     });
 
+    function parseDescriptionMarkup(desc) {
+        // Convert ![alt](url) -> <img>
+        return desc.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, function(match, alt, url) {
+            return '<img src="' + url + '" alt="' + alt + '" class="descImage">';
+        });
+    }
+
     function showDescriptionButton(description, attachElement) {
         $('<Button />', 
             { "class": 'KinkDesc',  
                 click: function() {
-                                    $('#Description').text(description);
+                                    $('#Description').html(parseDescriptionMarkup(description));
                                     $('#DescriptionOverlay').fadeIn();
                                 } 
         }).appendTo(attachElement);
@@ -658,8 +667,15 @@ $(function(){
             .catch(function(e){ console.error(e); });
     }
 
-    $('#buttonSimples').on('click', function(){ loadList('simples'); });
-    $('#buttonCompleta').on('click', function(){ loadList('completa'); });
+    $('#buttonSimples').on('click', function(){ 
+        loadList('simples');
+        $('#WelcomeOverlayBackground').fadeOut();
+    
+    });
+    $('#buttonCompleta').on('click', function(){ 
+        loadList('completa');
+        $('#WelcomeOverlayBackground').fadeOut();
+     });
 
     // Initial load — check if this is a shared link
     var hashParams = new URLSearchParams(location.hash.substring(1));

@@ -118,8 +118,10 @@ td + td {
 	box-sizing:border-box;
 	position:absolute;
 	width:330px;
-	left:50%;
-	bottom:50%;
+    left: 50%;
+	top: 50%;
+	max-height: 90vh;
+    overflow-y: auto;
 	resize:none;
 	background-color:#000;
 	border-radius:5px;
@@ -127,6 +129,14 @@ td + td {
 	padding:10px;
 	font-family:'Verdana','Arial';
 	font-size:14px
+}
+
+.descImage {
+	max-width: 100%;
+	height: auto;
+	display: block;
+	margin: 10px auto;
+	border-radius: 4px;
 }
 
 .KinkDesc:hover { opacity:1 }
